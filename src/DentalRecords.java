@@ -64,7 +64,7 @@ public class DentalRecords {
 
         for (index = 0; index < teeth.length(); index++) {
             if (teeth.charAt(index) != 'I' && teeth.charAt(index) != 'B' &&
-            teeth.charAt(index) != 'M') {
+                    teeth.charAt(index) != 'M') {
                 return false;
             } //end if
         } //end for
@@ -98,33 +98,41 @@ public class DentalRecords {
     } //end getToothRow
 
     /**
-     * For each family member, gets their name and their uppers and lowers
-     * tooth-type strings, and stores them in the arrays.
+     * Reports the family's root canal indices: adds up to the total number of
+     * I, B, and M teeth in the family, then finds and displays both roots of
+     * Ix^2 + Bx - M using those totals.
      *
-     * @param familySize the Scanner to read from
-     * @param teeth the 1D array of family member names
-     * @param teeth the 3D array of tooth type
+     * @param familySize the number of people in the family
+     * @param teeth the 3D array of tooth types
      */
-    public static void reportRootCanals(int familySize, char[][][] teeth){
+    public static void reportRootCanals(int familySize, char[][][] teeth) {
 
     }
 
+    /**
+     * For each family member, gets their name and their uppers and lowers
+     * tooth-type strings, and stores them in the arrays.
+     *
+     * @param keyboard the Scanner to read from
+     * @param names the 1D array of family members names
+     * @param teeth the 3D array of tooth types
+     */
     public static void getFamilyInfo(Scanner keyboard, String[] names, char[][][] teeth) {
         int member;
         int index;
         String row;
 
-        for (member = 0; member < names.length; member++){
+        for (member = 0; member < names.length; member++) {
             printPrompt("Please enter the name for family member " + (member + 1));
             names[member] = keyboard.next();
 
             row = getToothRow(keyboard, "Please enter the uppers for " + names[member]);
-            for (index = 0; index < row.length(); index++){
+            for (index = 0; index < row.length(); index++) {
                 teeth[member][0][index] = row.charAt(index);
             } //end for
 
             row = getToothRow(keyboard, "Please enter the lowers for " + names[member]);
-            for (index = 0; index < row.length(); index++){
+            for (index = 0; index < row.length(); index++) {
                 teeth[member][1][index] = row.charAt(index);
             } //end for
         } //end for
@@ -133,14 +141,14 @@ public class DentalRecords {
     /**
      * Finds the array index of a family member by name, ignoring case.
      *
-     * @param names the 1D array of family nember names
+     * @param names the 1D array of family member names
      * @param answer the name to look for
      * @return the index of the member, or -1 if not found
      */
     public static int findMember(String[] names, String answer) {
         int index;
 
-        for(index =0; index < names.length; index++) {
+        for (index = 0; index < names.length; index++) {
             if (names[index].equalsIgnoreCase(answer)) {
                 return index;
             } //end if
@@ -186,14 +194,11 @@ public class DentalRecords {
         printPrompt("Which tooth number");
         toothNumber = keyboard.nextInt();
 
-        while (toothNumber < 1 || toothNumber > MAX_TEETH) {
-            printPrompt("Invalid tooth number, try again");
-            toothNumber = keyboard.nextInt();
-        } //end while
-
-
-        while (teeth[member][layer][toothNumber - 1] == 0 || teeth[member][layer][toothNumber - 1] == 'M') {
-            if (teeth[member][layer][toothNumber - 1] == 'M') {
+        while (toothNumber < 1 || toothNumber > MAX_TEETH ||
+                teeth[member][layer][toothNumber - 1] == 0 ||
+                teeth[member][layer][toothNumber - 1] == 'M') {
+            if (toothNumber >= 1 && toothNumber <= MAX_TEETH &&
+                    teeth[member][layer][toothNumber - 1] == 'M') {
                 printPrompt("Missing tooth, try again");
             } else {
                 printPrompt("Invalid tooth number, try again");
@@ -206,13 +211,6 @@ public class DentalRecords {
         System.out.println();
     } //end extractTooth
 
-    /**
-     * Reports the family's root canal indices: adds up the total number
-     * of I, B, and M teeth in the family, then finds and displays both roots of Ix^2 + Bx - M
-     * using those totals.
-     *
-     * @param teeth the 3D array of tooth types
-     */
 
     /**
      * Prints each family member's name followed by their uppers and
@@ -227,18 +225,18 @@ public class DentalRecords {
 
         System.out.println();
 
-        for(member = 0; member < names.length; member++) {
+        for (member = 0; member < names.length; member++) {
             System.out.println(names[member] + ":");
 
-            System.out.print(" Uppers: ");
+            System.out.print("  Uppers: ");
             index = 0;
-            while (index < MAX_TEETH && teeth[member][0][index] != 0){
+            while (index < MAX_TEETH && teeth[member][0][index] != 0) {
                 System.out.printf("%2d:%c  ", index + 1, teeth[member][0][index]);
                 index = index + 1;
             } //end while
             System.out.println();
 
-            System.out.print(" Lowers: ");
+            System.out.print("  Lowers: ");
             index = 0;
             while (index < MAX_TEETH && teeth[member][1][index] != 0) {
                 System.out.printf("%2d:%c  ", index + 1, teeth[member][1][index]);
@@ -283,7 +281,7 @@ public class DentalRecords {
         Scanner keyboard = new Scanner(System.in);
         int familySize;
         char option;
-        String [] names;
+        String[] names;
         char[][][] teeth;
 
         System.out.println("Welcome to the Floridian Tooth Records");
@@ -304,7 +302,7 @@ public class DentalRecords {
             } else if (option == 'R') {
                 reportRootCanals(familySize, teeth);
             } //end if
-        } while (option != 'X') ;
+        } while (option != 'X');
 
         System.out.println();
         System.out.println("Exiting the Floridian Tooth Records :-)");
