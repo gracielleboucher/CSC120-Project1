@@ -37,14 +37,45 @@ public class DentalRecords {
         return familySize;
     } //end getFamilySize
 
+    /**
+     * Prints the menu prompt, validates that the choice is P, E, R, or X
+     * (upper or lower case), and re-asks until valid.
+     *
+     * @param keyboard the Scanner to read from
+     * @return the uppercase menu choice
+     */
+    public static char getMenuChoice(Scanner keyboard) {
+        String answer;
+        char option;
+
+        System.out.print("(P)rint, (E)xtract, (R)oot, e(X)it          : ");
+        answer = keyboard.next();
+        option = Character.toUpperCase(answer.charAt(0));
+
+        while (option != 'P' && option != 'E' && option != 'R' && option != 'X') {
+            System.out.print("Invalid menu option, try again              : ");
+            answer = keyboard.next();
+            option = Character.toUpperCase(answer.charAt(0));
+        } //end while
+        return option;
+    } //end getMenuChoice
+
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
         int familySize;
+        char option;
 
         System.out.println("Welcome to the Floridian Tooth Records");
         System.out.println("--------------------------------------");
 
         familySize = getFamilySize(keyboard);
+
+        do {
+            option = getMenuChoice(keyboard);
+        } while (option != 'X');
+
+        System.out.println();
+        System.out.println("Exiting the Floridian Tooth Records :-)");
     } //end of the main method
 
 } //end of the DentalRecords class
