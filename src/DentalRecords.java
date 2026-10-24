@@ -127,6 +127,82 @@ public class DentalRecords {
     } //end getFamilyInfo
 
     /**
+     * Finds the array index of a family member by name, ignoring case.
+     *
+     * @param names the 1D array of family nember names
+     * @param answer the name to look for
+     * @return the index of the member, or -1 if not found
+     */
+    public static int findMember(String[] names, String answer) {
+        int index;
+
+        for(index =0; index < names.length; index++) {
+            if (names[index].equalsIgnoreCase(answer)) {
+                return index;
+            } //end if
+        } //end for
+        return -1;
+    }  //end findMember
+
+    /**
+     * Extracts a tooth: gets the family member, tooth layer, and tooth number,
+     * validates each, checks the tooth is not already missing, and
+     * converts that tooth to type M in the array.
+     *
+     * @param keyboard the Scanner to read from
+     * @param names the 1D array of family members names
+     * @param teeth the 3D array of tooth types
+     */
+    public static void extractTooth(Scanner keyboard, String[] names, char[][][] teeth) {
+        String answer;
+        int member;
+        int layer;
+        char layerAnswer;
+        int toothNumber;
+
+        printPrompt("Which family member");
+        member = findMember(names, keyboard.next());
+        while (member < 0) {
+            printPrompt("Invalid family member, try again");
+            member = findMember(names, keyboard.next());
+        } //end while
+
+        printPrompt("Which tooth layer (U)pper or (L)ower");
+        layerAnswer = Character.toUpperCase(keyboard.next().charAt(0));
+        while (layerAnswer != 'U' && layerAnswer != 'L') {
+            printPrompt("Invalid layer, try again");
+            layerAnswer = Character.toUpperCase(keyboard.next().charAt(0));
+        } //end while
+        if (layerAnswer == 'U') {
+            layer = 0;
+        } else {
+            layer = 1;
+        } //end if
+
+        printPrompt("Which tooth number");
+        toothNumber = keyboard.nextInt();
+
+        while (toothNumber < 1 || toothNumber > MAX_TEETH) {
+            printPrompt("Invalid tooth number, try again");
+            toothNumber = keyboard.nextInt();
+        } //end while
+
+
+        while (teeth[member][layer][toothNumber - 1] == 0 || teeth[member][layer][toothNumber - 1] == 'M') {
+            if (teeth[member][layer][toothNumber - 1] == 'M') {
+                printPrompt("Missing tooth, try again");
+            } else {
+                printPrompt("Invalid tooth number, try again");
+            } //end if
+            toothNumber = keyboard.nextInt();
+        } //end while
+
+        teeth[member][layer][toothNumber - 1] = 'M';
+
+        System.out.println();
+    } //end extractTooth
+
+    /**
      * Prints each family member's name followed by their uppers and
      * lowers tooth types, numbered per tooth.
      *
@@ -211,6 +287,8 @@ public class DentalRecords {
             option = getMenuChoice(keyboard);
             if (option == 'P') {
                 printRecord(names, teeth);
+            } else if (option == 'E') {
+                extractTooth(keyboard, names, teeth);
             } //end if
         } while (option != 'X') ;
 
