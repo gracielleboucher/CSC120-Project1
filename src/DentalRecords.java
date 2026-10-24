@@ -182,7 +182,7 @@ public class DentalRecords {
             } //end if
         } //end for
         return -1;
-    }  //end findMember
+    } //end findMember
 
     /**
      * Extracts a tooth: gets the family member, tooth layer, and tooth number,
@@ -194,7 +194,6 @@ public class DentalRecords {
      * @param teeth the 3D array of tooth types
      */
     public static void extractTooth(Scanner keyboard, String[] names, char[][][] teeth) {
-        String answer;
         int member;
         int layer;
         char layerAnswer;
@@ -238,7 +237,6 @@ public class DentalRecords {
 
         System.out.println();
     } //end extractTooth
-
 
     /**
      * Prints each family member's name followed by their uppers and
