@@ -98,6 +98,35 @@ public class DentalRecords {
     } //end getToothRow
 
     /**
+     * For each family member, gets their name and their uppers and lowers
+     * tooth-type strings, and stores them in the arrays.
+     *
+     * @param keyboard the Scanner to read from
+     * @param names the 1D array of family member names
+     * @param teeth the 3D array of tooth type
+     */
+    public static void getFamilyInfo(Scanner keyboard, String[] names, char[][][] teeth) {
+        int member;
+        int index;
+        String row;
+
+        for (member = 0; member < names.length; member++){
+            printPrompt("Please enter the name for family member " + (member + 1));
+            names[member] = keyboard.next();
+
+            row = getToothRow(keyboard, "Please enter the uppers for " + names[member]);
+            for (index = 0; index < row.length(); index++){
+                teeth[member][0][index] = row.charAt(index);
+            } //end for
+
+            row = getToothRow(keyboard, "Please enter the lowers for " + names[member]);
+            for (index = 0; index < row.length(); index++){
+                teeth[member][1][index] = row.charAt(index);
+            } //end for
+        } //end for
+    } //end getFamilyInfo
+
+    /**
      * Prints the menu prompt, validates that the choice is P, E, R, or X
      * (upper or lower case), and re-asks until valid.
      *
@@ -120,16 +149,28 @@ public class DentalRecords {
         return option;
     } //end getMenuChoice
 
+    /**
+     * Program entry point: collects the family's dental records, then
+     * runs the menu loop until the user chooses to exit.
+     *
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
         int familySize;
         char option;
+        String [] names;
+        char[][][] teeth;
 
         System.out.println("Welcome to the Floridian Tooth Records");
         System.out.println("--------------------------------------");
 
         familySize = getFamilySize(keyboard);
+        names = new String[familySize];
+        teeth = new char[familySize][2][MAX_TEETH];
+        getFamilyInfo(keyboard, names, teeth);
 
+        System.out.println();
         do {
             option = getMenuChoice(keyboard);
         } while (option != 'X');
