@@ -127,6 +127,42 @@ public class DentalRecords {
     } //end getFamilyInfo
 
     /**
+     * Prints each family member's name followed by their uppers and
+     * lowers tooth types, numbered per tooth.
+     *
+     * @param names the 1D array of family members
+     * @param teeth the 3D array of tooth types
+     */
+    public static void printRecord(String[] names, char[][][] teeth) {
+        int member;
+        int index;
+
+        System.out.println();
+
+        for(member = 0; member < names.length; member++) {
+            System.out.println(names[member] + ":");
+
+            System.out.print(" Uppers: ");
+            index = 0;
+            while (index < MAX_TEETH && teeth[member][0][index] != 0){
+                System.out.printf("%2d:%c  ", index + 1, teeth[member][0][index]);
+                index = index + 1;
+            } //end while
+            System.out.println();
+
+            System.out.print(" Lowers: ");
+            index = 0;
+            while (index < MAX_TEETH && teeth[member][1][index] != 0) {
+                System.out.printf("%2d:%c  ", index + 1, teeth[member][1][index]);
+                index = index + 1;
+            } //end while
+            System.out.println();
+
+            System.out.println();
+        } //end for
+    } //end printRecord
+
+    /**
      * Prints the menu prompt, validates that the choice is P, E, R, or X
      * (upper or lower case), and re-asks until valid.
      *
@@ -173,7 +209,10 @@ public class DentalRecords {
         System.out.println();
         do {
             option = getMenuChoice(keyboard);
-        } while (option != 'X');
+            if (option == 'P') {
+                printRecord(names, teeth);
+            } //end if
+        } while (option != 'X') ;
 
         System.out.println();
         System.out.println("Exiting the Floridian Tooth Records :-)");
