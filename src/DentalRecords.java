@@ -106,8 +106,36 @@ public class DentalRecords {
      * @param teeth the 3D array of tooth types
      */
     public static void reportRootCanals(int familySize, char[][][] teeth) {
+        int member;
+        int layer;
+        int index;
+        int numI = 0;
+        int numB = 0;
+        int numM = 0;
+        double rootOne;
+        double rootTwo;
 
-    }
+        for (member = 0; member < familySize; member++) {
+            for (layer = 0; layer < 2; layer++) {
+                for (index = 0; index < MAX_TEETH; index++) {
+                    if (teeth[member][layer][index] == 'I') {
+                        numI = numI + 1;
+                    } else if (teeth[member][layer][index] == 'B') {
+                        numB = numB + 1;
+                    } else if (teeth[member][layer][index] == 'M') {
+                        numM = numM + 1;
+                    } //end if
+                } //end for
+            } //end for
+        } //end for
+
+        rootOne = (-numB + Math.sqrt(numB * numB + 4 * numI * numM)) / (2 * numI);
+        rootTwo = (-numB - Math.sqrt(numB * numB + 4 * numI * numM)) / (2 * numI);
+
+        System.out.println();
+        System.out.printf("One root canal at %9.2f%n", rootOne);
+        System.out.printf("Another root canal at %5.2f%n", rootTwo);
+    } //end reportRootCanals
 
     /**
      * For each family member, gets their name and their uppers and lowers
@@ -306,6 +334,6 @@ public class DentalRecords {
 
         System.out.println();
         System.out.println("Exiting the Floridian Tooth Records :-)");
-    } //end of the main method
+    } //end main method
 
-} //end of the DentalRecords class
+} //end DentalRecords class
