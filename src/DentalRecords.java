@@ -11,9 +11,13 @@ import java.util.Scanner;
  * @author Gracielle Boucher
  * @version 1.0 October 2026
  */
-
 public class DentalRecords {
+
+    /** Maximum number of people in the family. */
     public static final int MAX_FAMILY = 6;
+
+    /** Maximum number of teeth in one layer (uppers or lowers). */
+    public static final int MAX_TEETH = 8;
 
     /**
      * Asks for the number of people in the family and validates
@@ -22,7 +26,6 @@ public class DentalRecords {
      * @param keyboard the Scanner to read from
      * @return the validated family size (1 to 6)
      */
-
     public static int getFamilySize(Scanner keyboard) {
         int familySize;
 
@@ -36,6 +39,63 @@ public class DentalRecords {
 
         return familySize;
     } //end getFamilySize
+
+    /**
+     * Prints a prompt padded with spaces to 44 characters so the colons
+     * of all prompts line up, matching the sample run.
+     *
+     * @param prompt the prompt text without the colon
+     */
+    public static void printPrompt(String prompt) {
+        while (prompt.length() < 44) {
+            prompt = prompt + " ";
+        } //end while
+        System.out.print(prompt + ": ");
+    } //end printPrompt
+
+    /**
+     * Checks whether every character in a tooth-type string is I, B, or M.
+     *
+     * @param teeth the string to check
+     * @return true if all characters are valid tooth types
+     */
+    public static boolean isValidTeeth(String teeth) {
+        int index;
+
+        for (index = 0; index < teeth.length(); index++) {
+            if (teeth.charAt(index) != 'I' && teeth.charAt(index) != 'B' &&
+            teeth.charAt(index) != 'M') {
+                return false;
+            } //end if
+        } //end for
+        return true;
+    } //end isValidTeeth
+
+    /**
+     * Reads one tooth-type string (uppers or lowers), validating that
+     * every character is I, B, or M and that there are at most 8 teeth,
+     * re-asking until valid.
+     *
+     * @param keyboard the Scanner to read from
+     * @param prompt the prompt text for this layer
+     * @return the validated tooth type string in upper case
+     */
+    public static String getToothRow(Scanner keyboard, String prompt) {
+        String teeth;
+
+        printPrompt(prompt);
+        teeth = keyboard.next().toUpperCase();
+
+        while (!isValidTeeth(teeth) || teeth.length() > MAX_TEETH) {
+            if (!isValidTeeth(teeth)) {
+                printPrompt("Invalid teeth types, try again");
+            } else {
+                printPrompt("Too many teeth, try again");
+            } //end if
+            teeth = keyboard.next().toUpperCase();
+        } //end while
+        return teeth;
+    } //end getToothRow
 
     /**
      * Prints the menu prompt, validates that the choice is P, E, R, or X
