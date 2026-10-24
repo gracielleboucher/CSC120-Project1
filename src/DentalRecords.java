@@ -101,10 +101,14 @@ public class DentalRecords {
      * For each family member, gets their name and their uppers and lowers
      * tooth-type strings, and stores them in the arrays.
      *
-     * @param keyboard the Scanner to read from
-     * @param names the 1D array of family member names
+     * @param familySize the Scanner to read from
+     * @param teeth the 1D array of family member names
      * @param teeth the 3D array of tooth type
      */
+    public static void reportRootCanals(int familySize, char[][][] teeth){
+
+    }
+
     public static void getFamilyInfo(Scanner keyboard, String[] names, char[][][] teeth) {
         int member;
         int index;
@@ -203,6 +207,14 @@ public class DentalRecords {
     } //end extractTooth
 
     /**
+     * Reports the family's root canal indices: adds up the total number
+     * of I, B, and M teeth in the family, then finds and displays both roots of Ix^2 + Bx - M
+     * using those totals.
+     *
+     * @param teeth the 3D array of tooth types
+     */
+
+    /**
      * Prints each family member's name followed by their uppers and
      * lowers tooth types, numbered per tooth.
      *
@@ -289,6 +301,8 @@ public class DentalRecords {
                 printRecord(names, teeth);
             } else if (option == 'E') {
                 extractTooth(keyboard, names, teeth);
+            } else if (option == 'R') {
+                reportRootCanals(familySize, teeth);
             } //end if
         } while (option != 'X') ;
 
